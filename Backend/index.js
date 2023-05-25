@@ -1,6 +1,5 @@
-require("dotenv").config();
-const port = process.env.PORT || 8080;
 const express = require("express");
+const { UserRoute } = require("./route/users.route");
 const app = express();
 
 app.use(express.json());
@@ -9,6 +8,7 @@ app.get("/", (req, res) => {
   res.send("Hello This is Home Page");
 });
 
-app.listen(port, () => {
-  console.log("listeneing port", port);
+app.use("/user", UserRoute);
+app.listen(8080, () => {
+  console.log("listeneing port", 8080);
 });
