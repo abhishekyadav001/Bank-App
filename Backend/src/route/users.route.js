@@ -33,10 +33,10 @@ router.post("/login", async (req, res) => {
 //   res.status(data.status).send(data.payload);
 // });
 
-// router.post("/logout", (req, res) => {
-//   const { token } = req.headers;
-//   let data = userLogoutController(token);
-//   res.status(data.status).send(data.payload);
-// });
+router.post("/logout", (req, res) => {
+  const { token } = req.headers;
+  let data = userLogoutController(token);
+  res.status(data.status).send(data.payload);
+});
 
 module.exports = { router };
