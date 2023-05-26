@@ -6,7 +6,9 @@ const {
   userLogoutController,
   userGetUserController,
 } = require("../controller/user.controller");
-
+router.get("/", (req, res) => {
+  res.send("This is user Page");
+});
 router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
   // console.log(username, email, password);
