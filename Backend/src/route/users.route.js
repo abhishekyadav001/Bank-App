@@ -37,6 +37,7 @@ const router = express.Router();
 //   res.status(data.status).send(data.payload);
 // });
 router.get("/", (req, res) => {
+  console.log("hello");
   res.send("this is user page");
 });
 module.exports = { router };
