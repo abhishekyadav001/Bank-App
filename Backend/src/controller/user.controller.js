@@ -78,45 +78,4 @@ function userLogoutController(token) {
   };
 }
 
-async function userGetUserController(token) {
-  // check Logout
-  let checkLogout = backlist.includes(token);
-  // console.log(checkLogout)
-  if (checkLogout) {
-    // return res.send({ msg: "Token Alreday Expired" })
-    return {
-      status: 401,
-      payload: { msg: "Token Alreday Expired" },
-    };
-  }
-
-  if (!token) {
-    // return res.status(404).send({ msg: "Token No Found" })
-    return {
-      status: 404,
-      payload: { msg: "Token No Found" },
-    };
-  }
-
-  try {
-    const verify = jwt.verify(token, secretKey);
-    // res.send(verify)
-    const user = await userModel.findById(verify.id);
-    // res.send({ username: user.username, role: user.role, email: user.email });
-    return {
-      status: 201,
-      payload: { username: user.username, role: user.role, email: user.email },
-    };
-  } catch (error) {
-    if (error.message === "jwt expired") {
-      backlist.push(token);
-    }
-    // res.status(401).send({ msg: error.message })
-    return {
-      status: 401,
-      payload: { msg: error.message },
-    };
-  }
-}
-
-module.exports = { userSignupController, userLoginController, userLogoutController, userGetUserController };
+module.exports = { userSignupController, userLoginController, userLogoutController };

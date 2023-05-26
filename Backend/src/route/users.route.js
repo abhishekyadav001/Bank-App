@@ -25,14 +25,6 @@ router.post("/login", async (req, res) => {
   res.status(data.status).send(data.payload);
 });
 
-// router.get("/user/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const { token } = req.headers;
-
-//   let data = await userGetUserController(token);
-//   res.status(data.status).send(data.payload);
-// });
-
 router.post("/logout", (req, res) => {
   const { token } = req.headers;
   let data = userLogoutController(token);
