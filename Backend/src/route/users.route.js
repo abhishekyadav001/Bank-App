@@ -1,20 +1,20 @@
 const express = require("express");
 const router = express.Router();
-// const {
-//   userSignupController,
-//   userLoginController,
-//   userLogoutController,
-//   userGetUserController,
-// } = require("../controller/user.controller");
+const {
+  userSignupController,
+  userLoginController,
+  userLogoutController,
+  userGetUserController,
+} = require("../controller/user.controller");
 
-// router.post("/signup", async (req, res) => {
-//   const { username, email, password } = req.body;
-//   // console.log(username, email, password);
+router.post("/signup", async (req, res) => {
+  const { username, email, password } = req.body;
+  // console.log(username, email, password);
 
-//   let data = await userSignupController(username, email, password);
+  let data = await userSignupController(username, email, password);
 
-//   res.status(data.status).send(data.payload);
-// });
+  res.status(data.status).send(data.payload);
+});
 
 // router.post("/login", async (req, res) => {
 //   const { email, password } = req.body;
