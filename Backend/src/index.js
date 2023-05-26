@@ -4,6 +4,7 @@ const { connection } = require("./config/db");
 const cors = require("cors");
 const app = express();
 require("dotenv").config();
+const port = process.env.PORT || 8080;
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
@@ -12,11 +13,11 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", router);
-app.listen(8080, async () => {
+app.listen(port, async () => {
   try {
     await connection();
     console.log("db connected");
-    console.log("listeneing port", 8080);
+    console.log("listeneing port", port);
   } catch (error) {
     console.log(error.message);
   }
