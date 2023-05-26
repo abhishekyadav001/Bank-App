@@ -8,7 +8,7 @@ const port = process.env.PORT || 8080;
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-app.use("/users", router);
+// app.use("/users", router);
 
 app.get("/", (req, res) => {
   res.send("Hello This is Home Page");
