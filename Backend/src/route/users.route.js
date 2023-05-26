@@ -18,12 +18,12 @@ router.post("/signup", async (req, res) => {
   res.status(data.status).send(data.payload);
 });
 
-// router.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
 
-//   let data = await userLoginController(email, password);
-//   res.status(data.status).send(data.payload);
-// });
+  let data = await userLoginController(email, password);
+  res.status(data.status).send(data.payload);
+});
 
 // router.get("/user/:id", async (req, res) => {
 //   const { id } = req.params;
