@@ -24,11 +24,12 @@ export const signupAPI = (creds) => async (dispatch) => {
   }
 };
 
-export const checkBalance = (creds) => async (dispatch) => {
+export const checkBalance = () => async (dispatch) => {
   dispatch({ type: types.CHECKBALANCE_REQUEST });
   try {
-    const res = await axiosInstance.get("/users/", creds);
-    dispatch({ type: types.CHECKBALANCE_SUCCESS, payload: res.data });
+    const res = await axiosInstance.get("/users/");
+
+    dispatch({ type: types.CHECKBALANCE_SUCCESS, payload: res.data.payload });
   } catch (error) {
     dispatch({ type: types.CHECKBALANCE_FAILED, payload: error.response.data.message });
     return Promise.reject(error.response.data.message);
