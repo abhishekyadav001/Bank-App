@@ -15,7 +15,7 @@ transactionRouter.get("/", async (req, res) => {
 transactionRouter.post("/", async (req, res) => {
   try {
     const { userID, amount, type } = req.body;
-
+    console.log(amount, type);
     const transaction = await transactionModel.create({ userID, amount, type });
 
     res.status(201).send({ msg: "Transaction Successfull" });
