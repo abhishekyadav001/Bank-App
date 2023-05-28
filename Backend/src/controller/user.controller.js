@@ -32,7 +32,7 @@ async function userSignupController(username, email, password) {
 async function userLoginController(email, password) {
   try {
     const user = await userModel.findOne({ email });
-    console.log(user);
+
     const hashPassword = user.password;
 
     const check = await argon2.verify(hashPassword, password);
@@ -42,7 +42,7 @@ async function userLoginController(email, password) {
 
       return {
         status: 201,
-        payload: { msg: "Login Successfully", token, userID: user._id },
+        payload: { msg: "Login Successfully", token },
       };
     } else {
       return {
