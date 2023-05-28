@@ -23,6 +23,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { depositAmount } from "../Redux/Trasaction/action";
 import { transactionReducer } from "../Redux/Trasaction/reducer";
+import { checkBalance } from "../Redux/Auth/action";
 
 function Transaction(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,7 +34,7 @@ function Transaction(props) {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   const dispatch = useDispatch();
-  const { isLoading, isError, errorMessage } = useStore((store) => store.transactionReducer);
+  const { isLoading, isError, errorMessage, accountBalance } = useStore((store) => store.transactionReducer);
   const handleInput = (e) => {
     const { name, value } = e.target;
     setAmount({ amount: Number(value), type: `${name}` });
@@ -52,7 +53,7 @@ function Transaction(props) {
       })
       .catch((error) => {
         toast({
-          title: error,
+          title: errorMessage,
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -60,12 +61,23 @@ function Transaction(props) {
       });
   };
 
+  const getcurrentBalance = async () => {
+    try {
+      dispatch(checkBalance());
+    } catch (error) {
+      return error;
+    }
+  };
+
+  useEffect(() => {
+    getcurrentBalance();
+  }, [amount]);
   return (
     <Box display={"flex"} justifyContent={"center"}>
       <Box width={"70%"}>
         <VStack align={"flex-start"}>
           <Heading>Transaction Page</Heading>
-          <Text fontSize="2xl">Amount:{currentamount} </Text>
+          <Text fontSize="2xl">Amount:{accountBalance} </Text>
         </VStack>
         <HStack>
           <Button colorScheme="blue" size="md" onClick={onOpen}>
