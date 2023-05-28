@@ -2,18 +2,21 @@ import * as types from "./actionType";
 import { axiosInstance } from "../../utils/axioxconfig";
 
 export const depositAmount = (creds) => async (dispatch) => {
-  dispatch({ type: types.DEPOSIT_REQUEST });
+  dispatch({ type: types.TRANSACTION_REQUEST });
   try {
+    if (creds.amount <= 0) {
+      return Promise.reject("please enter a amount more than 0 Rs");
+    }
     const res = await axiosInstance.post("/transaction", creds);
-    console.log(res);
-    dispatch({ type: types.DEPOSIT_SUCCESSFULL });
+
+    dispatch({ type: types.TRANSACTION_SUCCESSFULL });
   } catch (error) {
-    dispatch({ type: types.DEPOSIT_FAILED, payload: error.response.data.message });
+    dispatch({ type: types.TRANSACTION_FAILED, payload: error.response.data.message });
     return Promise.reject(error.response.data.message);
   }
 };
 
-// export const signupAPI = (creds) => async (dispatch) => {
+// export const withdrawAmount = (creds) => async (dispatch) => {
 //   dispatch({ type: types.ACCOUNT_LOADING });
 //   try {
 //     const res = await axiosInstance.post("/users/signup", creds);

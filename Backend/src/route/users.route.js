@@ -1,9 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const { userSignupController, userLoginController, userLogoutController } = require("../controller/user.controller");
-router.get("/", (req, res) => {
-  res.send("This is user Page");
+const authMiddleware = require("../middleware/auth.middleware");
+const userModel = require("../model/users.model");
+
+router.get("/", authMiddleware, async (req, res) => {
+  try {
+    const { userID } = req.body;
+
+    const user = await userModel.findOne({ _id: userID });
+    console.log(user);
+    res.status(201).send({ message: "user balance is checked", payload: user.balance });
+  } catch (error) {
+    res.status(401).send(error.message);
+  }
 });
+
 router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
   // console.log(username, email, password);

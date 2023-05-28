@@ -8,17 +8,11 @@ const initData = {
 
 export const transactionReducer = (state = initData, { type, payload }) => {
   switch (type) {
-    case types.DEPOSIT_REQUEST:
+    case types.TRANSACTION_REQUEST:
       return { ...state, isLoading: true };
-    case types.DEPOSIT_SUCCESSFULL:
+    case types.TRANSACTION_SUCCESSFULL:
       return { ...state, isLoading: false };
-    case types.DEPOSIT_FAILED:
-      return { ...state, isError: true, errorMessage: payload.message };
-    case types.WITHDRAW_REQUEST:
-      return { ...state, isLoading: true };
-    case types.WITHDRAW_SUCCESSFULL:
-      return { ...state, isLoading: false };
-    case types.WITHDRAW_FAILED:
+    case types.TRANSACTION_FAILED:
       return { ...state, isError: true, errorMessage: payload.message };
     default:
       return state;

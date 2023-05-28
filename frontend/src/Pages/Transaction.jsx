@@ -20,29 +20,35 @@ import {
 } from "@chakra-ui/react";
 
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useStore } from "react-redux";
 import { depositAmount } from "../Redux/Trasaction/action";
+import { transactionReducer } from "../Redux/Trasaction/reducer";
 
 function Transaction(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const withdrawModal = useDisclosure();
   const toast = useToast();
-  const [amount, setAmount] = useState(0);
+  const [currentamount, setCurrentAmount] = useState(0);
+  const [amount, setAmount] = useState({});
   const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
   const dispatch = useDispatch();
+  const { isLoading, isError, errorMessage } = useStore((store) => store.transactionReducer);
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setAmount({ [name]: value });
+    setAmount({ amount: Number(value), type: `${name}` });
   };
-  const handleEvent = (e) => {
-    dispatch(depositAmount({ amount, type: "Deposit" }))
+  const handleEvent = () => {
+    dispatch(depositAmount(amount))
       .then((res) => {
         toast({
-          title: "Payment Successfull",
+          title: "Transaction Successfull",
           description: "You can check for confirmation your transaction history",
           status: "success",
           duration: 3000,
           isClosable: true,
         });
+        setAmount({});
       })
       .catch((error) => {
         toast({
@@ -53,18 +59,19 @@ function Transaction(props) {
         });
       });
   };
+
   return (
     <Box display={"flex"} justifyContent={"center"}>
       <Box width={"70%"}>
         <VStack align={"flex-start"}>
           <Heading>Transaction Page</Heading>
-          <Text fontSize="2xl">Amount</Text>
+          <Text fontSize="2xl">Amount:{currentamount} </Text>
         </VStack>
         <HStack>
           <Button colorScheme="blue" size="md" onClick={onOpen}>
             Deposit
           </Button>
-          <Button colorScheme="red" size="md">
+          <Button colorScheme="red" size="md" onClick={withdrawModal.onOpen}>
             Withdraw
           </Button>
         </HStack>
@@ -78,7 +85,13 @@ function Transaction(props) {
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Amount</FormLabel>
-                <Input ref={initialRef} name="amount" onChange={handleInput} placeholder="Enter amount here" />
+                <Input
+                  type="number"
+                  ref={initialRef}
+                  name="Deposit"
+                  onChange={handleInput}
+                  placeholder="Enter amount here"
+                />
               </FormControl>
             </ModalBody>
 
@@ -87,6 +100,38 @@ function Transaction(props) {
                 Deposit
               </Button>
               <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+        <Modal initialFocusRef={finalRef} isOpen={withdrawModal.isOpen} onClose={withdrawModal.onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Withdraw Your Money</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Amount</FormLabel>
+                <Input
+                  type="number"
+                  ref={finalRef}
+                  name="Withdraw"
+                  onChange={handleInput}
+                  placeholder="Enter amount here"
+                />
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                colorScheme="red"
+                onClick={handleEvent}
+                isLoading={isLoading}
+                loadingText={"Withdrawing...."}
+                mr={3}
+              >
+                Withdraw
+              </Button>
+              <Button onClick={withdrawModal.onClose}>Cancel</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>

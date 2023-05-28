@@ -7,9 +7,9 @@ const transactionRouter = express.Router();
 transactionRouter.use(authMiddleware);
 transactionRouter.get("/", async (req, res) => {
   try {
-    const alltransactions = await transactionModel.find();  
+    const alltransactions = await transactionModel.find();
 
-    res.status(201).send({ msg: "all user is get successfully", payload: { alltransactions } });
+    res.status(201).send({ msg: "all user is get successfully", " payload": { alltransactions } });
   } catch (error) {}
 });
 
